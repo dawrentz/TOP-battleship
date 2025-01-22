@@ -1,0 +1,21 @@
+/* style.css */
+
+@import url("./reset.css");
+
+:root {
+  /* variables */
+  --main-color: white;
+  --spacing: 1rem;
+  --padding: 1rem;
+
+  /* debugging */
+  * {
+    /* outline: solid red 1px; */
+  }
+}
+
+body {
+  background-color: aquamarine;
+
+  font-family: Arial, Helvetica, sans-serif;
+}
