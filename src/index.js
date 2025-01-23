@@ -1,8 +1,9 @@
 //index.js
 
 //imports
-// import "./style.css";
-import * as mod from "./mod.js";
+import "./style.css";
+import * as shipMod from "./shipMod.js";
+import * as gameboardMod from "./gameboardMod.js";
 
 //declarations
 
