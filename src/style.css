@@ -18,4 +18,50 @@ body {
   background-color: aquamarine;
 
   font-family: Arial, Helvetica, sans-serif;
+
+  > * {
+    padding: var(--padding);
+  }
+}
+
+.main-content {
+  --square-size: 2.5rem;
+
+  .gameboards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    justify-items: center;
+
+    /* each gameboard */
+    > * {
+      max-width: min-content;
+      border-left: solid black 1px;
+      border-top: solid black 1px;
+    }
+  }
+
+  .player-one-board {
+  }
+
+  .player-two-board {
+  }
+
+  .gameboard-row {
+    display: grid;
+    grid-template-columns: repeat(10, var(--square-size));
+
+    border-bottom: solid black 0.5px;
+
+    height: var(--square-size);
+  }
+  .gameboard-square {
+    background-color: white;
+    border-right: solid black 0.5px;
+
+    width: 2.5rem;
+
+    text-align: center;
+    text-justify: center;
+  }
 }
