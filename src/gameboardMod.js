@@ -11,7 +11,6 @@ import * as shipMod from "./shipMod.js";
 
 export class Gameboard {
   constructor() {
-    this.pointer = null;
     this.board = this.createGameboard();
     this.liveShips = 0;
   }
@@ -35,7 +34,7 @@ export class Gameboard {
     thisSquare.hasHit = true;
 
     //check for game over
-    if (this.checkForGameOver === true) {
+    if (this.checkForGameOver()) {
       //end game
     }
   }
@@ -50,6 +49,12 @@ export class Gameboard {
 
   placeShip(shipLength, headCoords, isHorz) {
     const possCoords = this.getAllShipCoords(shipLength, headCoords, isHorz);
+    //handle a diffent way?
+    if (this.checkForBadCoords(possCoords)) {
+      throw new Error(
+        "Ship placement has invalid coords. Check bounds and/or ship overlap."
+      );
+    }
 
     const newShip = new shipMod.Ship(shipLength);
 
@@ -60,6 +65,36 @@ export class Gameboard {
     });
 
     this.liveShips++;
+  }
+
+  checkForBadCoords(possCoords) {
+    let hasIssue = false;
+    if (this.checkForOutOfBounds(possCoords)) {
+      hasIssue = true;
+      //if out of bounds issue, return before running checkForShipOverlap()
+      //this.board[xCoord][yCoord].ship won't exist for out of bounds square
+      return hasIssue;
+    }
+    if (this.checkForShipOverlap(possCoords)) hasIssue = true;
+    return hasIssue;
+  }
+
+  checkForOutOfBounds(possCoords) {
+    let isOutOfBounds = false;
+    possCoords.forEach((coordSet) => {
+      if (coordSet[0] > 9 || coordSet[1] > 9) isOutOfBounds = true;
+    });
+    return isOutOfBounds;
+  }
+
+  checkForShipOverlap(possCoords) {
+    let hasShipOverlap = false;
+    possCoords.forEach((coordSet) => {
+      const xCoord = coordSet[0];
+      const yCoord = coordSet[1];
+      if (this.board[xCoord][yCoord].ship !== null) hasShipOverlap = true;
+    });
+    return hasShipOverlap;
   }
 
   //needs check for out of bounds and collisions
@@ -115,9 +150,9 @@ export class Square {
 
 // ====================================== testing ====================================== //
 
-const testGameboard = new Gameboard();
-const newSquare = new Square();
+// const testGameboard = new Gameboard();
+// const newSquare = new Square();
 
-// console.log(testGameboard.placeShip(3, [1, 1], true));
+// console.log(testGameboard.placeShip(3, [9, 9], true));
 // console.log(newSquare.ship);
 // console.log(testGameboard.board);

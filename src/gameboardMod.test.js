@@ -84,6 +84,49 @@ it("places ship VERT", () => {
   }
 });
 
+it("rejects out of bounds placement GOOD", () => {
+  const newGameboard = new gameboardMod.Gameboard();
+  const possCoords = [
+    [6, 6],
+    [7, 6],
+    [8, 6],
+  ];
+
+  expect(newGameboard.checkForBadCoords(possCoords)).toBe(false);
+});
+
+it("rejects out of bounds placement BAD", () => {
+  const newGameboard = new gameboardMod.Gameboard();
+  const possCoords = [
+    [8, 6],
+    [9, 6],
+    [10, 6],
+  ];
+
+  expect(newGameboard.checkForBadCoords(possCoords)).toBe(true);
+});
+
+it("rejects ship overlap placement BAD", () => {
+  const newGameboard = new gameboardMod.Gameboard();
+  newGameboard.placeShip(3, [2, 0], false);
+  const possCoords = [
+    [0, 2],
+    [1, 2],
+    [2, 2],
+  ];
+
+  expect(newGameboard.checkForBadCoords(possCoords)).toBe(true);
+});
+
+it("rejects ship placement BAD", () => {
+  const newGameboard = new gameboardMod.Gameboard();
+  expect(() => {
+    newGameboard.placeShip(3, [9, 9], true);
+  }).toThrow(
+    "Ship placement has invalid coords. Check bounds and/or ship overlap."
+  );
+});
+
 // ====================================== Attack ====================================== //
 
 it("attacks empty space", () => {
