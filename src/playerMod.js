@@ -9,9 +9,9 @@ import * as gameboardMod from "./gameboardMod.js";
 
 // ====================================== Major Functions ====================================== //
 
-class Player {
+export class Player {
   constructor(isHuman) {
-    this.board = new gameboardMod.Gameboard();
+    this.playerBoard = new gameboardMod.Gameboard();
     this.isHuman = isHuman;
   }
 }

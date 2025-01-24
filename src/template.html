@@ -6,11 +6,22 @@
     <title>BATTLESHIP</title>
   </head>
   <body>
-    <div class="header"><h1>BATTLESHIP</h1></div>
+    <div class="header">
+      <h1>BATTLESHIP</h1>
+      <button id="new-game-button">Start Game</button>
+    </div>
     <div class="main-content">
-      <div class="gameboards">
-        <div class="player-one-board"></div>
-        <div class="player-two-board"></div>
+      <div class="gameboards-container">
+        <div class="gameboard-title">Player 1</div>
+        <div id="player-one-gameboards" class="gameboards">
+          <div id="player-one-board" class="player-board gameboard"></div>
+          <div id="player-one-enemy-board" class="enemy-board gameboard"></div>
+        </div>
+        <div class="gameboard-title">Player 2</div>
+        <div id="player-two-gameboards" class="gameboards">
+          <div id="player-two-board" class="player-board gameboard"></div>
+          <div id="player-two-enemy-board " class="enemy-board gameboard"></div>
+        </div>
       </div>
     </div>
     <div class="footer"></div>

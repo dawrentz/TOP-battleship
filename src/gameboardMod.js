@@ -65,6 +65,9 @@ export class Gameboard {
     });
 
     this.liveShips++;
+    return possCoords;
+    //dont place renderShip here,
+    //placeShip will be called elsewhere and from there also call renderShip
   }
 
   checkForBadCoords(possCoords) {
