@@ -10,19 +10,22 @@ import * as playerMod from "./playerMod.js";
 
 // ====================================== Init ====================================== //
 
-let playerOne = null;
-let playerTwo = null;
-let currentPlayerTurn = playerOne;
+let playerOne;
+let playerTwo;
+let currentPlayerTurn;
 
 // ====================================== Major Functions ====================================== //
 
 export function initGame() {
   playerOne = new playerMod.Player(true);
   playerTwo = new playerMod.Player(false);
+  currentPlayerTurn = playerOne;
 
   //automatic placement for now
   placeDemoShips(playerOne);
-  console.log(playerOne.playerBoard.board[0][0].ship);
+  changeCurrentPlayerTurn();
+  placeDemoShips(playerTwo);
+  changeCurrentPlayerTurn();
 }
 
 function placeDemoShips(player) {
@@ -36,7 +39,15 @@ function placeDemoShips(player) {
 
 // ====================================== Lessor Functions ====================================== //
 
-function getPlayerNum() {
-  if (currentPlayerTurn === playerOne || currentPlayerTurn === null) return 1;
-  else return 2;
+export function getPlayerNum() {
+  if (currentPlayerTurn === playerOne) return 1;
+  return 2;
+}
+export function getPlayer(playerNum) {
+  return playerNum === 1 ? playerOne : playerTwo;
+}
+
+function changeCurrentPlayerTurn() {
+  if (currentPlayerTurn === playerOne) currentPlayerTurn = playerTwo;
+  else currentPlayerTurn = playerOne;
 }

@@ -13,6 +13,8 @@ const playerTwoBoardsContainer = document.querySelector(
 
 // ====================================== Init ====================================== //
 
+renderGameboards();
+
 // ====================================== Major Functions ====================================== //
 
 function renderGameboards() {
@@ -43,20 +45,21 @@ function createGameboard(boardContainer) {
 }
 
 export function renderShip(coordSets, playerNum, isHorz) {
+  //get player and find players gameboardDOM
   let gameboardsContainer;
   if (playerNum === 1) gameboardsContainer = playerOneBoardsContainer;
   else if (playerNum === 2) gameboardsContainer = playerTwoBoardsContainer;
   else throw new Error("Must specify playerNum");
-  const playerBoardDOM = gameboardsContainer.querySelector("#player-one-board");
-  //test
-  console.log(playerNum);
+  const playerBoardDOM = gameboardsContainer.querySelector(".player-board");
 
+  //find/edit specific DOM square from ship coords
   coordSets.forEach((coordSet) => {
     const xCoord = coordSet[0];
     const yCoord = coordSet[1];
     const boardSquareDOM = playerBoardDOM.querySelector(
       `[data-x-coord="${xCoord}"][data-y-coord="${yCoord}"]`
     );
+
     //add classes for css
     boardSquareDOM.classList.add("square-has-ship");
     isHorz === true
@@ -64,12 +67,10 @@ export function renderShip(coordSets, playerNum, isHorz) {
       : boardSquareDOM.classList.add("vert");
 
     //set outline for horz/vert top/mid/end
-    if (coordSet === coordSets[coordSets.length - 1]) console.log(coordSet);
+    // if (coordSet === coordSets[coordSets.length - 1]) console.log(coordSet);
   });
 }
 
 // ====================================== Lessor Functions ====================================== //
 
 // ====================================== testing ====================================== //
-
-renderGameboards();

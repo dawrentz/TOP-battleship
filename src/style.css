@@ -50,6 +50,7 @@ body {
 
     height: var(--square-size);
   }
+
   .gameboard-square {
     background-color: cadetblue;
     /* border-right: solid black 0.5px; */
@@ -71,10 +72,12 @@ body {
         background-color: darkgray;
       }
     }
+  }
 
+  .enemy-board .gameboard-square {
     &:hover {
-      /* outline: solid black 2px; */
       background-color: red;
+      /* outline: solid black 2px; */
     }
   }
 }

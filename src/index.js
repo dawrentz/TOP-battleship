@@ -11,6 +11,3 @@ import * as userMod from "./userMod.js";
 //declarations
 
 // ====================================== Init ====================================== //
-
-//test
-console.log("from index");
