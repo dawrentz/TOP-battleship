@@ -6,6 +6,7 @@ import * as gameboardMod from "./gameboardMod.js";
 import * as renderMod from "./renderMod.js";
 import * as playerMod from "./playerMod.js";
 import * as gameMod from "./gameMod.js";
+import * as messageMod from "./messageMod.js";
 
 //declarations
 const newGameBtn = document.querySelector("#new-game-button");
@@ -26,7 +27,7 @@ export function addNewGameELs() {
   );
 
   allEnemySquares.forEach((square) => {
-    square.addEventListener("click", (event) => enemySquareEL(event));
+    square.addEventListener("click", (event) => attackEnemySquareEL(event));
   });
 }
 
@@ -34,9 +35,10 @@ function newGameEL() {
   //alert are you sure? (if no current game)
   //switch to restart
   gameMod.initGame();
+  messageMod.updatePlayerTurn();
 }
 
-function enemySquareEL(event) {
+function attackEnemySquareEL(event) {
   //handle game no start yet
   if (!gameMod.getPlayer(1)) return;
 
@@ -62,9 +64,21 @@ function enemySquareEL(event) {
     if (attackRecieved) {
       //render attack on DOM if attackRecieved is true
       renderMod.renderAttack([xCoord, yCoord], enemyNum);
-      gameMod.changeCurrentPlayerTurn();
+
+      //   const currentPlayer = gameMod.getPlayer(currentPlayerNum);
+      if (enemy.playerBoard.liveShips === 0) {
+        messageMod.gameOver(currentPlayerNum);
+      }
+
+      //if no game over
+      else {
+        gameMod.changeCurrentPlayerTurn();
+        messageMod.updatePlayerTurn();
+      }
     }
   }
+
+  //if attack fails, message
 }
 
 // ====================================== Lessor Functions ====================================== //

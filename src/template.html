@@ -8,16 +8,23 @@
   <body>
     <div class="header">
       <h1>BATTLESHIP</h1>
-      <button id="new-game-button">Start Game</button>
+      <button id="new-game-button">New Game</button>
     </div>
     <div class="main-content">
+      <div id="message-div">Press button to begin game</div>
       <div class="gameboards-container">
-        <div class="gameboard-title">Player 1</div>
+        <div id="player-one-titles" class="gameboard-titles">
+          <div>Player One's Board</div>
+          <div>Player One's Enemy Board</div>
+        </div>
         <div id="player-one-gameboards" class="gameboards">
           <div id="player-one-board" class="player-board gameboard"></div>
           <div id="player-one-enemy-board" class="enemy-board gameboard"></div>
         </div>
-        <div class="gameboard-title">Player 2</div>
+        <div id="player-two-titles" class="gameboard-titles">
+          <div>Player Two's Board</div>
+          <div>Player Two's Enemy Board</div>
+        </div>
         <div id="player-two-gameboards" class="gameboards">
           <div id="player-two-board" class="player-board gameboard"></div>
           <div id="player-two-enemy-board" class="enemy-board gameboard"></div>

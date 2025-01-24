@@ -20,12 +20,29 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 
   > * {
-    padding: var(--padding);
+    padding: 0 var(--padding);
+  }
+}
+
+.header {
+  button {
+    display: block;
+    margin: auto;
   }
 }
 
 .main-content {
   --square-size: 2.5rem;
+
+  #message-div {
+    text-align: center;
+    font-size: x-large;
+  }
+
+  .gameboard-titles {
+    display: flex;
+    justify-content: space-around;
+  }
 
   .gameboards {
     display: grid;
