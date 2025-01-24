@@ -1,7 +1,8 @@
 //renderMod.js
 
 //imports
-// import * as gameboardMod from "./gameboardMod.js";
+import * as userMod from "./userMod.js";
+import * as gameMod from "./gameMod.js";
 
 //declarations
 const playerOneBoardsContainer = document.querySelector(
@@ -17,13 +18,17 @@ renderGameboards();
 
 // ====================================== Major Functions ====================================== //
 
-function renderGameboards() {
+export function renderGameboards() {
   const gameboards = document.querySelectorAll(".gameboard");
 
   gameboards.forEach((gameboard) => {
+    gameboard.innerHTML = "";
     createGameboard(gameboard);
   });
+
+  userMod.addNewGameELs();
 }
+
 function createGameboard(boardContainer) {
   //create rows first
   for (let i = 0; i <= 9; i++) {
@@ -45,18 +50,13 @@ function createGameboard(boardContainer) {
 }
 
 export function renderShip(coordSets, playerNum, isHorz) {
-  //get player and find players gameboardDOM
-  let gameboardsContainer;
-  if (playerNum === 1) gameboardsContainer = playerOneBoardsContainer;
-  else if (playerNum === 2) gameboardsContainer = playerTwoBoardsContainer;
-  else throw new Error("Must specify playerNum");
-  const playerBoardDOM = gameboardsContainer.querySelector(".player-board");
+  const boards = getPlayerBoards(playerNum);
 
   //find/edit specific DOM square from ship coords
   coordSets.forEach((coordSet) => {
     const xCoord = coordSet[0];
     const yCoord = coordSet[1];
-    const boardSquareDOM = playerBoardDOM.querySelector(
+    const boardSquareDOM = boards.playerBoardDOM.querySelector(
       `[data-x-coord="${xCoord}"][data-y-coord="${yCoord}"]`
     );
 
@@ -71,6 +71,68 @@ export function renderShip(coordSets, playerNum, isHorz) {
   });
 }
 
+export function renderAttack(coordSet, receivingPlayerNum) {
+  let attackingPlayerNum;
+  if (receivingPlayerNum === 1) attackingPlayerNum = 2;
+  else attackingPlayerNum = 1;
+
+  const recievingPlayerBoards = getPlayerBoards(receivingPlayerNum);
+  const attackingPlayerBoards = getPlayerBoards(attackingPlayerNum);
+
+  //find/edit specific DOM square from ship coords
+  const xCoord = coordSet[0];
+  const yCoord = coordSet[1];
+
+  //add x to enemy-board
+  editHitSquareDOM(recievingPlayerBoards.playerBoardDOM, xCoord, yCoord);
+  //add x to player-enemy-board
+  editHitSquareDOM(attackingPlayerBoards.enemyBoardDOM, xCoord, yCoord);
+}
+
 // ====================================== Lessor Functions ====================================== //
+
+function getPlayerBoards(playerNum) {
+  let gameboardsContainer;
+  if (playerNum === 1) gameboardsContainer = playerOneBoardsContainer;
+  else if (playerNum === 2) gameboardsContainer = playerTwoBoardsContainer;
+  else throw new Error("Must specify playerNum");
+  const playerBoardDOM = gameboardsContainer.querySelector(".player-board");
+  const enemyBoardDOM = gameboardsContainer.querySelector(".enemy-board");
+
+  return {
+    gameboardsContainer,
+    playerBoardDOM,
+    enemyBoardDOM,
+  };
+}
+
+function editHitSquareDOM(board, xCoord, yCoord) {
+  const editSquareDOM = board.querySelector(
+    `[data-x-coord="${xCoord}"][data-y-coord="${yCoord}"]`
+  );
+  editSquareDOM.classList.add("has-hit");
+  const tempDiv = document.createElement("div");
+  tempDiv.classList.add("x-hit-div");
+  tempDiv.textContent = "✖";
+  editSquareDOM.appendChild(tempDiv);
+
+  //add has ship class if needed
+  checkForShip(board, editSquareDOM, xCoord, yCoord);
+}
+
+function checkForShip(board, square, xCoord, yCoord) {
+  let playerToCheck;
+  //if editing player one's enemy board, we want to check player 2's board for a ship in that square
+  if (board.id === "player-one-enemy-board") {
+    playerToCheck = gameMod.getPlayer(2);
+  } else if (board.id === "player-two-enemy-board") {
+    playerToCheck = gameMod.getPlayer(1);
+  } else return;
+
+  // console.log(playerToCheck.playerBoard.board[xCoord][yCoord]);
+  if (playerToCheck.playerBoard.board[xCoord][yCoord].ship) {
+    square.classList.add("square-has-enemy-ship");
+  }
+}
 
 // ====================================== testing ====================================== //

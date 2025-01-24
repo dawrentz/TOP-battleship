@@ -16,13 +16,16 @@ export class Gameboard {
   }
 
   receiveAttack(coordSet) {
+    let attackRecieved = true;
     const xCoord = coordSet[0];
     const yCoord = coordSet[1];
     const thisSquare = this.board[xCoord][yCoord];
 
     //handle previous attack
-    if (thisSquare.hasHit === true)
-      throw new Error("Square has already been attacked");
+    if (thisSquare.hasHit === true) {
+      attackRecieved = false;
+      return attackRecieved;
+    }
 
     //handle ship attack
     if (thisSquare.ship !== null) {
@@ -37,6 +40,8 @@ export class Gameboard {
     if (this.checkForGameOver()) {
       //end game
     }
+
+    return attackRecieved;
   }
 
   checkForGameOver() {

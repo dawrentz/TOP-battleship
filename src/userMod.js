@@ -9,21 +9,25 @@ import * as gameMod from "./gameMod.js";
 
 //declarations
 const newGameBtn = document.querySelector("#new-game-button");
-const allEnemySquares = document.querySelectorAll(
-  ".enemy-board .gameboard-square"
-);
 
 // ====================================== Init ====================================== //
 
-addELs();
+addInitELs();
 
 // ====================================== Major Functions ====================================== //
 
-function addELs() {
+function addInitELs() {
   newGameBtn.addEventListener("click", newGameEL);
-  allEnemySquares.forEach((square) =>
-    square.addEventListener("click", (event) => enemySquareEL(event))
+}
+
+export function addNewGameELs() {
+  const allEnemySquares = document.querySelectorAll(
+    ".enemy-board .gameboard-square"
   );
+
+  allEnemySquares.forEach((square) => {
+    square.addEventListener("click", (event) => enemySquareEL(event));
+  });
 }
 
 function newGameEL() {
@@ -36,10 +40,11 @@ function enemySquareEL(event) {
   //handle game no start yet
   if (!gameMod.getPlayer(1)) return;
 
-  const playerNum = gameMod.getPlayerNum();
+  const currentPlayerNum = gameMod.getPlayerNum();
   let enemyNum;
   let activeBoardID;
-  if (playerNum === 1) {
+
+  if (currentPlayerNum === 1) {
     activeBoardID = "player-one-enemy-board";
     enemyNum = 2;
   } else {
@@ -53,9 +58,12 @@ function enemySquareEL(event) {
 
     const enemy = gameMod.getPlayer(enemyNum);
 
-    console.table(enemy.playerBoard.board[xCoord][yCoord]);
-    enemy.playerBoard.receiveAttack([xCoord, yCoord]);
-    console.table(enemy.playerBoard.board[xCoord][yCoord]);
+    const attackRecieved = enemy.playerBoard.receiveAttack([xCoord, yCoord]);
+    if (attackRecieved) {
+      //render attack on DOM if attackRecieved is true
+      renderMod.renderAttack([xCoord, yCoord], enemyNum);
+      gameMod.changeCurrentPlayerTurn();
+    }
   }
 }
 

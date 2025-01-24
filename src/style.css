@@ -52,16 +52,17 @@ body {
   }
 
   .gameboard-square {
+    display: grid;
+
+    justify-content: center;
+    align-content: center;
+
     background-color: cadetblue;
-    /* border-right: solid black 0.5px; */
     outline: solid black 1px;
 
-    width: 2.5rem;
-
-    text-align: center;
-    text-justify: center;
-
     &.square-has-ship {
+      color: firebrick;
+
       outline: none;
 
       &.horz {
@@ -72,11 +73,22 @@ body {
         background-color: darkgray;
       }
     }
+
+    &.square-has-enemy-ship {
+      color: firebrick;
+    }
+
+    .x-hit-div {
+      font-size: x-large;
+
+      max-width: min-content;
+      max-height: min-content;
+    }
   }
 
   .enemy-board .gameboard-square {
     &:hover {
-      background-color: red;
+      background-color: lightcoral;
       /* outline: solid black 2px; */
     }
   }

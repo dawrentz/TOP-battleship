@@ -17,6 +17,8 @@ let currentPlayerTurn;
 // ====================================== Major Functions ====================================== //
 
 export function initGame() {
+  renderMod.renderGameboards();
+
   playerOne = new playerMod.Player(true);
   playerTwo = new playerMod.Player(false);
   currentPlayerTurn = playerOne;
@@ -47,7 +49,7 @@ export function getPlayer(playerNum) {
   return playerNum === 1 ? playerOne : playerTwo;
 }
 
-function changeCurrentPlayerTurn() {
+export function changeCurrentPlayerTurn() {
   if (currentPlayerTurn === playerOne) currentPlayerTurn = playerTwo;
   else currentPlayerTurn = playerOne;
 }
