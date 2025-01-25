@@ -89,6 +89,10 @@ export function renderAttack(coordSet, receivingPlayerNum) {
   editHitSquareDOM(attackingPlayerBoards.enemyBoardDOM, xCoord, yCoord);
 }
 
+export function setShips(player) {
+  //make buttons
+}
+
 // ====================================== Lessor Functions ====================================== //
 
 function getPlayerBoards(playerNum) {

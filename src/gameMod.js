@@ -13,6 +13,7 @@ let playerOne;
 let playerTwo;
 let currentPlayerTurn;
 let gameState;
+export const shipLengths = [4, 3, 2, 1, 1, 2, 1, 2, 3, 1];
 
 // ====================================== Init ====================================== //
 
@@ -33,12 +34,35 @@ export function initGame() {
   playerTwo = new playerMod.Player(false);
   setGameState().setShips;
 
+  renderMod.setShips(playerOne);
+  randomizeShipPlacement(playerOne);
+  randomizeShipPlacement(playerTwo);
   //automatic placement for now
-  placeDemoShips(playerOne);
-  placeDemoShips(playerTwo);
+  // placeDemoShips(playerOne);
+  // placeDemoShips(playerTwo);
 
   currentPlayerTurn = playerOne;
   setGameState().playerTurn();
+}
+
+function randomizeShipPlacement(player) {
+  const randShipList = suggestShips();
+  let playerNum = player === playerOne ? 1 : 2;
+  //test
+  console.log(randShipList);
+
+  randShipList.forEach((ship) => {
+    const coords = player.playerBoard.placeShip(
+      ship.shipLength,
+      ship.coords,
+      ship.isHorz
+    );
+
+    //test
+    console.log(coords);
+
+    renderMod.renderShip(coords, playerNum, ship.isHorz);
+  });
 }
 
 function placeDemoShips(player) {
@@ -62,6 +86,43 @@ export function setGameState() {
 
 export function getGameState() {
   return gameState;
+}
+
+export function suggestShips() {
+  const tempGameboard = new gameboardMod.Gameboard();
+  const suggestedShips = [];
+  shipLengths.forEach((shipLength) => {
+    const randShip = testRandomShip(tempGameboard, shipLength);
+    suggestedShips.push({
+      coords: randShip.randCoords,
+      isHorz: randShip.randIsHorz,
+      shipLength,
+    });
+  });
+
+  return suggestedShips;
+}
+
+function testRandomShip(board, shipLength) {
+  const randCoords = getRandCoords();
+  const randIsHorz = getRandIsHorz();
+
+  // console.log(board.placeShip(shipLength, randCoords, randIsHorz));
+
+  if (!board.placeShip(shipLength, randCoords, randIsHorz)) {
+    return testRandomShip(board, shipLength);
+  }
+  return { randCoords, randIsHorz };
+}
+
+function getRandCoords() {
+  const xCoord = Math.floor(Math.random() * 10);
+  const yCoord = Math.floor(Math.random() * 10);
+  return [xCoord, yCoord];
+}
+
+function getRandIsHorz() {
+  return Math.floor(Math.random() * 2) === 0 ? true : false;
 }
 
 // ====================================== Lessor Functions ====================================== //

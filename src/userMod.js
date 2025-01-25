@@ -37,7 +37,7 @@ function newGameEL() {
   //alert are you sure? (if no current game)
   //switch to restart
   gameMod.initGame();
-  messageMod.updatePlayerTurn(); //change to "set ships"
+  messageMod.setShips(); //change to "set ships"
 }
 
 function attackEnemySquareEL(event) {

@@ -14,6 +14,10 @@ export function newGame() {
   updateMessage("Press button to begin game");
 }
 
+export function setShips() {
+  updateMessage("Player One, set your ships");
+}
+
 export function updatePlayerTurn() {
   let playerNumText;
   if (gameMod.getPlayerNum() === 1) playerNumText = "one's";

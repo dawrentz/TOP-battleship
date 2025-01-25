@@ -56,9 +56,7 @@ export class Gameboard {
     const possCoords = this.getAllShipCoords(shipLength, headCoords, isHorz);
     //handle a diffent way?
     if (this.checkForBadCoords(possCoords)) {
-      throw new Error(
-        "Ship placement has invalid coords. Check bounds and/or ship overlap."
-      );
+      return false;
     }
 
     const newShip = new shipMod.Ship(shipLength);
