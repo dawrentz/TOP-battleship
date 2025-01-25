@@ -14,6 +14,15 @@ export class Player {
     this.playerBoard = new gameboardMod.Gameboard();
     this.isHuman = isHuman;
   }
+  //computer moves go here?
+
+  suggestShip() {
+    //exclude humans
+    if (!this.isHuman) {
+      //select random coords and check
+      // return //coords;
+    }
+  }
 }
 
 // ====================================== testing ====================================== //

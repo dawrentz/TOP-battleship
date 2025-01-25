@@ -31,21 +31,24 @@ export function addNewGameELs() {
   });
 }
 
+// ====================================== EL Functions ====================================== //
+
 function newGameEL() {
   //alert are you sure? (if no current game)
   //switch to restart
   gameMod.initGame();
-  messageMod.updatePlayerTurn();
+  messageMod.updatePlayerTurn(); //change to "set ships"
 }
 
 function attackEnemySquareEL(event) {
-  //handle game no start yet
-  if (!gameMod.getPlayer(1)) return;
+  let gameState = gameMod.getGameState();
+  //handle game no active game
+  if (gameState !== "player turn") return;
 
+  //get correct board information
   const currentPlayerNum = gameMod.getPlayerNum();
   let enemyNum;
   let activeBoardID;
-
   if (currentPlayerNum === 1) {
     activeBoardID = "player-one-enemy-board";
     enemyNum = 2;
@@ -54,6 +57,8 @@ function attackEnemySquareEL(event) {
     enemyNum = 1;
   }
 
+  //only render changes on enemy board
+  //call gameBoard.recieveAttack here?
   if (event.target.parentElement.parentElement.id === activeBoardID) {
     const xCoord = +event.target.getAttribute("data-x-coord");
     const yCoord = +event.target.getAttribute("data-y-coord");
@@ -65,20 +70,12 @@ function attackEnemySquareEL(event) {
       //render attack on DOM if attackRecieved is true
       renderMod.renderAttack([xCoord, yCoord], enemyNum);
 
-      //   const currentPlayer = gameMod.getPlayer(currentPlayerNum);
-      if (enemy.playerBoard.liveShips === 0) {
-        messageMod.gameOver(currentPlayerNum);
-      }
-
-      //if no game over
-      else {
-        gameMod.changeCurrentPlayerTurn();
-        messageMod.updatePlayerTurn();
-      }
+      gameMod.progressGame();
+      gameState = gameMod.getGameState();
+      if (gameState === "player turn") messageMod.updatePlayerTurn();
+      if (gameState === "game over") messageMod.gameOver();
     }
   }
 
   //if attack fails, message
 }
-
-// ====================================== Lessor Functions ====================================== //

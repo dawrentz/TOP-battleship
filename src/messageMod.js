@@ -17,13 +17,14 @@ export function newGame() {
 export function updatePlayerTurn() {
   let playerNumText;
   if (gameMod.getPlayerNum() === 1) playerNumText = "one's";
-  else playerNumText = "two's";
+  else if (gameMod.getPlayerNum() === 2) playerNumText = "two's";
+  else throw new Error("no current player");
   updateMessage(`Player ${playerNumText} turn`);
 }
 
 export function gameOver(playerNum) {
   let playerNumText;
-  if (gameMod.getPlayerNum() === 1) playerNumText = "one";
+  if (playerNum === 1) playerNumText = "one";
   else playerNumText = "two";
   updateMessage(`Player ${playerNumText} wins!`);
 }
