@@ -8,6 +8,7 @@ import * as gameMod from "./gameMod.js";
 const playerOneBoardsContainer = document.querySelector(
   "#player-one-gameboards"
 );
+//hidden if computer player
 const playerTwoBoardsContainer = document.querySelector(
   "#player-two-gameboards"
 );
@@ -89,10 +90,6 @@ export function renderAttack(coordSet, receivingPlayerNum) {
   editHitSquareDOM(recievingPlayerBoards.playerBoardDOM, xCoord, yCoord);
   //add x to player-enemy-board
   editHitSquareDOM(attackingPlayerBoards.enemyBoardDOM, xCoord, yCoord);
-}
-
-export function setShips(player) {
-  //make buttons
 }
 
 // ====================================== Lessor Functions ====================================== //

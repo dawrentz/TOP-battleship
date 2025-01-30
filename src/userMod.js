@@ -10,6 +10,9 @@ import * as messageMod from "./messageMod.js";
 
 //declarations
 const newGameBtn = document.querySelector("#new-game-button");
+const randomShipsBtn = document.querySelector("#random-ships-btn");
+const readyBtn = document.querySelector("#ready-btn");
+const setShipsDiv = document.querySelector("#set-ships-div");
 
 // ====================================== Init ====================================== //
 
@@ -19,6 +22,9 @@ addInitELs();
 
 function addInitELs() {
   newGameBtn.addEventListener("click", newGameEL);
+  //randomships button just does init game again
+  randomShipsBtn.addEventListener("click", newGameEL);
+  readyBtn.addEventListener("click", readyBtnEL);
 }
 
 export function addNewGameELs() {
@@ -33,11 +39,16 @@ export function addNewGameELs() {
 
 // ====================================== EL Functions ====================================== //
 
+function readyBtnEL() {
+  setShipsDiv.style = "visibility: hidden";
+  gameMod.startGame();
+  messageMod.checkMessage();
+}
+
 function newGameEL() {
-  //alert are you sure? (if no current game)
-  //switch to restart
   gameMod.initGame();
   messageMod.checkMessage(); //change to "set ships"
+  setShipsDiv.style = "visibility: visible";
 }
 
 function attackEnemySquareEL(event) {

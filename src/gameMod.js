@@ -33,14 +33,15 @@ export function initGame() {
 
   playerOne = new playerMod.Player(true);
   playerTwo = new playerMod.Player(false);
-  setGameState().setShips;
+  setGameState().setShips();
 
-  renderMod.setShips(playerOne);
   randomizeShipPlacement(playerOne);
   randomizeShipPlacement(playerTwo);
+}
 
-  currentPlayerTurn = playerOne;
+export function startGame() {
   setGameState().playerTurn();
+  currentPlayerTurn = playerOne;
 }
 
 function randomizeShipPlacement(player) {

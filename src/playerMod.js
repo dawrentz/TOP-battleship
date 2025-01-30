@@ -31,14 +31,11 @@ export class Player {
       }
       //timeouts simulate "thinking"
       else {
-        renderMod.renderAttack(attackCoords, 1);
-        gameMod.progressGame();
-        messageMod.checkMessage();
-        // setTimeout(() => {
-        //   renderMod.renderAttack(attackCoords, 1);
-        //   gameMod.progressGame();
-        //   messageMod.checkMessage();
-        // }, 1000);
+        setTimeout(() => {
+          renderMod.renderAttack(attackCoords, 1);
+          gameMod.progressGame();
+          messageMod.checkMessage();
+        }, 500);
 
         //add attacks
         this.checkForAddAdjacentAttacks(enemy, attackCoords);
