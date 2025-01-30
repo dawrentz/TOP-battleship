@@ -24,7 +24,7 @@ it("makes a Gameboard", () => {
 });
 
 // ====================================== Get Coords ====================================== //
-//patter is: possCoords[choose which set of coords][0 for the x-coord, 1 for the y-coord]
+//pattern is: possCoords[choose which set of coords][0 for the x-coord, 1 for the y-coord]
 
 it("return correct HORZ possible coords for ship placement", () => {
   const newGameboard = new gameboardMod.Gameboard();

@@ -3,10 +3,6 @@
 //imports
 import * as shipMod from "./shipMod.js";
 
-//declarations
-
-// ====================================== Init ====================================== //
-
 // ====================================== Major Functions ====================================== //
 
 export class Gameboard {
@@ -18,27 +14,19 @@ export class Gameboard {
   receiveAttack(coordSet) {
     //handle out of bounds
     if (this.checkForOutOfBounds([coordSet])) return false;
+
     const xCoord = coordSet[0];
     const yCoord = coordSet[1];
     const thisSquare = this.board[xCoord][yCoord];
-
     //handle previous attack
     if (thisSquare.hasHit === true) return false;
 
-    //update square
-    thisSquare.hasHit = true;
-
-    //handle ship attack
     if (thisSquare.ship !== null) {
       thisSquare.ship.hit();
       this.checkForSunk(thisSquare.ship);
     }
 
-    //check for game over
-    if (this.checkForGameOver()) {
-      //end game
-    }
-
+    thisSquare.hasHit = true;
     return true;
   }
 
@@ -52,10 +40,7 @@ export class Gameboard {
 
   placeShip(shipLength, headCoords, isHorz) {
     const possCoords = this.getAllShipCoords(shipLength, headCoords, isHorz);
-    //handle a diffent way?
-    if (this.checkForBadCoords(possCoords)) {
-      return false;
-    }
+    if (this.checkForBadCoords(possCoords)) return false;
 
     const newShip = new shipMod.Ship(shipLength);
 
@@ -67,8 +52,6 @@ export class Gameboard {
 
     this.liveShips++;
     return possCoords;
-    //dont place renderShip here,
-    //placeShip will be called elsewhere and from there also call renderShip
   }
 
   checkForBadCoords(possCoords) {
@@ -76,7 +59,7 @@ export class Gameboard {
     if (this.checkForOutOfBounds(possCoords)) {
       hasIssue = true;
       //if out of bounds issue, return before running checkForShipOverlap()
-      //this.board[xCoord][yCoord].ship won't exist for out of bounds square
+      //.ship won't exist for out of bounds square
       return hasIssue;
     }
 
@@ -109,7 +92,6 @@ export class Gameboard {
     return hasShipOverlap;
   }
 
-  //needs check for out of bounds and collisions
   getAllShipCoords(shipLength, headCoordsArr, isHorz) {
     let allCoords = [];
     const headXcoord = headCoordsArr[0];
@@ -131,6 +113,7 @@ export class Gameboard {
     else {
       throw new Error("isHorz must be boolen");
     }
+
     return allCoords;
   }
 
@@ -138,9 +121,8 @@ export class Gameboard {
     const board = [];
     const numOfRows = 10;
     const numOfCols = 10;
-    //add desired number of rows (blank arrays)
+    //game board will be 10 rows of 10 Squares (an array of of 10 arrays, each with 10 objects)
     for (let i = 0; i < numOfRows; i++) board.push([]);
-    //add Square objects to make columns
     board.forEach((row) => {
       for (let i = 0; i < numOfCols; i++) {
         row.push(new Square());
@@ -157,14 +139,3 @@ export class Square {
     this.ship = null;
   }
 }
-
-// ====================================== Lessor Functions ====================================== //
-
-// ====================================== testing ====================================== //
-
-// const testGameboard = new Gameboard();
-// const newSquare = new Square();
-
-// console.log(testGameboard.placeShip(3, [9, 9], true));
-// console.log(newSquare.ship);
-// console.log(testGameboard.board);

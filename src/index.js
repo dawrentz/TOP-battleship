@@ -10,6 +10,6 @@ import * as userMod from "./userMod.js";
 import * as messageMod from "./messageMod.js";
 import * as playerMod from "./playerMod.js";
 
-//declarations
-
 // ====================================== Init ====================================== //
+
+renderMod.renderGameboards();

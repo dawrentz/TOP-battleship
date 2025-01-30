@@ -1,20 +1,19 @@
 //gameMod.js
 
 //imports
-import * as shipMod from "./shipMod.js";
 import * as gameboardMod from "./gameboardMod.js";
 import * as renderMod from "./renderMod.js";
 import * as playerMod from "./playerMod.js";
-import * as messageMod from "./messageMod.js";
 
 //declarations
-
 let playerOne;
 let playerTwo;
 let currentPlayerTurn;
 let gameState;
+
 const shipLengths = [4, 3, 2, 1, 1, 2, 1, 2, 3, 1];
 // export const shipLengths = [1, 2]; //testing
+// document.querySelector("#player-two-gameboards").style = "display: grid"; //testing
 
 // ====================================== Init ====================================== //
 
@@ -23,8 +22,8 @@ setGameState().noGame();
 // ====================================== Major Functions ====================================== //
 
 export function progressGame() {
-  if (checkForAndUpdateGameOver()) return;
-  //else, no game over and continue
+  if (checkForGameOver()) return;
+
   changeCurrentPlayerTurn();
 }
 
@@ -37,6 +36,7 @@ export function initGame() {
 
   randomizeShipPlacement(playerOne);
   randomizeShipPlacement(playerTwo);
+  //game waits for confirmation after ship placement to start
 }
 
 export function startGame() {
@@ -73,6 +73,7 @@ export function getGameState() {
 }
 
 export function suggestShips() {
+  //use a test gameboards to see if coords work, then send good coords to actual gameboard
   const tempGameboard = new gameboardMod.Gameboard();
   const suggestedShips = [];
   shipLengths.forEach((shipLength) => {
@@ -92,11 +93,11 @@ function testRandomShip(board, shipLength) {
   const randIsHorz = getRandIsHorz();
   const validShip = board.placeShip(shipLength, randCoords, randIsHorz);
 
-  if (!validShip) return testRandomShip(board, shipLength);
+  if (!validShip) return testRandomShip(board, shipLength); //re-run till valid
   return { randCoords, randIsHorz };
 }
 
-//probably should be in a helper module
+// should be in a helper module?
 export function getRandCoords() {
   const xCoord = Math.floor(Math.random() * 10);
   const yCoord = Math.floor(Math.random() * 10);
@@ -129,11 +130,11 @@ function changeCurrentPlayerTurn() {
   }
 }
 
-function checkForAndUpdateGameOver() {
+function checkForGameOver() {
   const enemyPlayer = getEnemyPlayer();
   let isGameOver = false;
 
-  if (enemyPlayer.playerBoard.liveShips === 0) {
+  if (enemyPlayer.playerBoard.checkForGameOver()) {
     setGameState().gameOver();
     isGameOver = true;
   }

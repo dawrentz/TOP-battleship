@@ -6,10 +6,6 @@ import * as gameMod from "./gameMod.js";
 import * as renderMod from "./renderMod.js";
 import * as messageMod from "./messageMod.js";
 
-//declarations
-
-// ====================================== Init ====================================== //
-
 // ====================================== Major Functions ====================================== //
 
 //leaving isHuman for possible future two player
@@ -19,17 +15,17 @@ export class Player {
     this.isHuman = isHuman;
     this.compMovesToMake = [];
   }
-  //computer moves go here?
 
   compAttack(enemy) {
     //exclude humans
     if (!this.isHuman) {
       const attackCoords = this.computerGetNextMove();
 
+      //re-run until valid attack
       if (!enemy.playerBoard.receiveAttack(attackCoords)) {
         return this.compAttack(enemy);
       }
-      //timeouts simulate "thinking"
+      //timeout simulates "thinking"
       else {
         setTimeout(() => {
           renderMod.renderAttack(attackCoords, 1);
@@ -37,7 +33,7 @@ export class Player {
           messageMod.checkMessage();
         }, 500);
 
-        //add attacks
+        //add ajacent attacks
         this.checkForAddAdjacentAttacks(enemy, attackCoords);
       }
     }
@@ -58,10 +54,11 @@ export class Player {
   checkForAddAdjacentAttacks(enemy, attackCoords) {
     const xCoord = attackCoords[0];
     const yCoord = attackCoords[1];
-    let rawAdjacentCoords = [];
+    let adjacentCoords = [];
 
     if (enemy.playerBoard.board[xCoord][yCoord].ship) {
-      rawAdjacentCoords = [
+      //uncomment for diagonal attacks
+      adjacentCoords = [
         // [xCoord - 1, yCoord + 1],
         // [xCoord - 1, yCoord - 1],
         // [xCoord + 1, yCoord + 1],
@@ -73,21 +70,7 @@ export class Player {
       ];
     }
 
-    //receiveAttack checks for bad coords
-    this.compMovesToMake = rawAdjacentCoords.concat(this.compMovesToMake);
+    //receiveAttack will check for bad coords
+    this.compMovesToMake = adjacentCoords.concat(this.compMovesToMake);
   }
 }
-
-// ====================================== testing ====================================== //
-
-// const newPlayer = new Player(false);
-// newPlayer.computerGetNextMove();
-// console.log(newPlayer.computerGetNextMove());
-// console.log(newPlayer.board);
-
-// const one = [
-//   [1, 1],
-//   [2, 2],
-// ];
-// const two = [[0, 0]];
-// console.log(two.concat(one));

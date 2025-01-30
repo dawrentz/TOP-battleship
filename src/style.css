@@ -29,6 +29,19 @@ body {
   }
 }
 
+/* ====================================== General ======================================  */
+
+button {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.75rem;
+
+  &:hover {
+    transform: scale(1.025);
+  }
+}
+
+/* ====================================== Main ======================================  */
+
 .header {
   h1 {
     text-align: center;
@@ -66,7 +79,6 @@ body {
     /* each gameboard */
     > * {
       max-width: min-content;
-      /* outline: solid black 1px; */
       border-left: solid black 1px;
       border-top: solid black 1px;
     }
@@ -75,8 +87,6 @@ body {
   .gameboard-row {
     display: grid;
     grid-template-columns: repeat(10, var(--square-size));
-
-    /* border-bottom: solid black 0.5px; */
 
     height: var(--square-size);
   }
@@ -88,7 +98,6 @@ body {
     align-content: center;
 
     background-color: cadetblue;
-    /* outline: solid black 1px; */
     border-right: 1px solid black;
     border-bottom: 1px solid black;
 
@@ -130,18 +139,17 @@ body {
   .enemy-board .gameboard-square {
     &:hover {
       background-color: lightcoral;
-      /* outline: solid black 2px; */
     }
   }
 }
+
+/* ====================================== Misc ======================================  */
 
 /* can make this toggle in js if want two player (future) */
 #player-two-titles,
 #player-two-gameboards {
   display: none;
 }
-
-/* ====================================== Misc ======================================  */
 
 #set-ships-div {
   visibility: hidden;

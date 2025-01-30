@@ -8,14 +8,10 @@ import * as gameMod from "./gameMod.js";
 const playerOneBoardsContainer = document.querySelector(
   "#player-one-gameboards"
 );
-//hidden if computer player
+//hidden for computer players
 const playerTwoBoardsContainer = document.querySelector(
   "#player-two-gameboards"
 );
-
-// ====================================== Init ====================================== //
-
-renderGameboards();
 
 // ====================================== Major Functions ====================================== //
 
@@ -36,12 +32,12 @@ function createGameboard(boardContainer) {
     const gameboardRow = document.createElement("div");
     gameboardRow.classList.add("gameboard-row");
 
-    //create squares in rows
+    //create squares in rows for "columns"
     for (let j = 0; j <= 9; j++) {
       const gameboardSquare = document.createElement("div");
       gameboardSquare.classList.add("gameboard-square");
-      gameboardSquare.dataset["xCoord"] = j; //converts to data-x-coord in DOM
-      gameboardSquare.dataset["yCoord"] = i; //converts to data-y-coord in DOM
+      gameboardSquare.dataset["xCoord"] = j; //property converts to data-x-coord in DOM
+      gameboardSquare.dataset["yCoord"] = i; //property converts to data-y-coord in DOM
 
       gameboardRow.appendChild(gameboardSquare);
     }
@@ -61,13 +57,12 @@ export function renderShip(coordSets, playerNum, isHorz) {
       `[data-x-coord="${xCoord}"][data-y-coord="${yCoord}"]`
     );
 
-    //add classes for css
     boardSquareDOM.classList.add("square-has-ship");
     isHorz === true
       ? boardSquareDOM.classList.add("horz")
       : boardSquareDOM.classList.add("vert");
 
-    //set border class for last part of ship
+    //set border class for last part of ship (nicer styling)
     if (coordSet === coordSets[coordSets.length - 1]) {
       boardSquareDOM.classList.add("end-of-ship");
     }
@@ -82,10 +77,9 @@ export function renderAttack(coordSet, receivingPlayerNum) {
   const recievingPlayerBoards = getPlayerBoards(receivingPlayerNum);
   const attackingPlayerBoards = getPlayerBoards(attackingPlayerNum);
 
-  //find/edit specific DOM square from ship coords
   const xCoord = coordSet[0];
   const yCoord = coordSet[1];
-
+  //find/edit specific DOM square from ship coords
   //add x to enemy-board
   editHitSquareDOM(recievingPlayerBoards.playerBoardDOM, xCoord, yCoord);
   //add x to player-enemy-board
@@ -130,12 +124,9 @@ function checkForShip(board, square, xCoord, yCoord) {
     playerToCheck = gameMod.getPlayer(2);
   } else if (board.id === "player-two-enemy-board") {
     playerToCheck = gameMod.getPlayer(1);
-  } else return;
+  } else return; //excludes player boards
 
-  // console.log(playerToCheck.playerBoard.board[xCoord][yCoord]);
   if (playerToCheck.playerBoard.board[xCoord][yCoord].ship) {
     square.classList.add("square-has-enemy-ship");
   }
 }
-
-// ====================================== testing ====================================== //

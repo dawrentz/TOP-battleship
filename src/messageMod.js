@@ -6,8 +6,6 @@ import * as gameMod from "./gameMod.js";
 //declarations
 const messageDiv = document.querySelector("#message-div");
 
-// ====================================== Init ====================================== //
-
 // ====================================== Major Functions ====================================== //
 
 export function checkMessage() {
@@ -28,18 +26,12 @@ function setShips() {
 }
 
 function updatePlayerTurn() {
-  let playerNumText;
-  if (gameMod.getPlayerNum() === 1) playerNumText = "one's";
-  else if (gameMod.getPlayerNum() === 2) playerNumText = "two's";
-  else throw new Error("no current player");
+  const playerNumText = getPlayerNumText();
   updateMessage(`Player ${playerNumText} turn`);
 }
 
 function gameOver() {
-  let playerNumText;
-  if (gameMod.getPlayerNum() === 1) playerNumText = "one";
-  else if (gameMod.getPlayerNum() === 2) playerNumText = "two";
-  else throw new Error("no current player");
+  const playerNumText = getPlayerNumText();
   updateMessage(`Player ${playerNumText} wins!`);
 }
 
@@ -47,4 +39,11 @@ function gameOver() {
 
 function updateMessage(message) {
   messageDiv.textContent = message;
+}
+function getPlayerNumText() {
+  let playerNumText;
+  if (gameMod.getPlayerNum() === 1) playerNumText = "one";
+  else if (gameMod.getPlayerNum() === 2) playerNumText = "two";
+  else throw new Error("no current player");
+  return playerNumText;
 }
