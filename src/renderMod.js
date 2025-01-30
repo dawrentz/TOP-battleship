@@ -110,7 +110,7 @@ function editHitSquareDOM(board, xCoord, yCoord) {
   editSquareDOM.classList.add("has-hit");
   const tempDiv = document.createElement("div");
   tempDiv.classList.add("x-hit-div");
-  tempDiv.textContent = "✖";
+  tempDiv.textContent = "X";
   editSquareDOM.appendChild(tempDiv);
 
   //add has ship class if needed

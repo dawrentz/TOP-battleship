@@ -130,6 +130,7 @@ button {
 
     .x-hit-div {
       font-size: x-large;
+      font-weight: bold;
 
       max-width: min-content;
       max-height: min-content;
