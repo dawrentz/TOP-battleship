@@ -37,7 +37,7 @@ function newGameEL() {
   //alert are you sure? (if no current game)
   //switch to restart
   gameMod.initGame();
-  messageMod.setShips(); //change to "set ships"
+  messageMod.checkMessage(); //change to "set ships"
 }
 
 function attackEnemySquareEL(event) {
@@ -58,7 +58,6 @@ function attackEnemySquareEL(event) {
   }
 
   //only render changes on enemy board
-  //call gameBoard.recieveAttack here?
   if (event.target.parentElement.parentElement.id === activeBoardID) {
     const xCoord = +event.target.getAttribute("data-x-coord");
     const yCoord = +event.target.getAttribute("data-y-coord");
@@ -71,9 +70,7 @@ function attackEnemySquareEL(event) {
       renderMod.renderAttack([xCoord, yCoord], enemyNum);
 
       gameMod.progressGame();
-      gameState = gameMod.getGameState();
-      if (gameState === "player turn") messageMod.updatePlayerTurn();
-      if (gameState === "game over") messageMod.gameOver();
+      messageMod.checkMessage();
     }
   }
 

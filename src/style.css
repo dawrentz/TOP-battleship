@@ -53,9 +53,9 @@ body {
     /* each gameboard */
     > * {
       max-width: min-content;
-      outline: solid black 1px;
-      /* border-left: solid black 1px; */
-      /* border-top: solid black 1px; */
+      /* outline: solid black 1px; */
+      border-left: solid black 1px;
+      border-top: solid black 1px;
     }
   }
 
@@ -75,19 +75,30 @@ body {
     align-content: center;
 
     background-color: cadetblue;
-    outline: solid black 1px;
+    /* outline: solid black 1px; */
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
 
     &.square-has-ship {
       color: firebrick;
 
-      outline: none;
+      border: none;
 
       &.horz {
         background-color: gray;
+        border-bottom: solid black 1px;
+
+        &.end-of-ship {
+          border-right: solid black 1px;
+        }
       }
 
       &.vert {
         background-color: darkgray;
+        border-right: solid black 1px;
+        &.end-of-ship {
+          border-bottom: solid black 1px;
+        }
       }
     }
 
@@ -109,4 +120,14 @@ body {
       /* outline: solid black 2px; */
     }
   }
+}
+
+/* :not([data-y-coord="9"]) {
+  background-color: red !important;
+} */
+
+/* can make this toggle in js if want two player (future) */
+#player-two-titles,
+#player-two-gameboards {
+  display: none;
 }

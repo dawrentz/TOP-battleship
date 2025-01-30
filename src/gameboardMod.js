@@ -16,16 +16,17 @@ export class Gameboard {
   }
 
   receiveAttack(coordSet) {
-    let attackRecieved = true;
+    //handle out of bounds
+    if (this.checkForOutOfBounds([coordSet])) return false;
     const xCoord = coordSet[0];
     const yCoord = coordSet[1];
     const thisSquare = this.board[xCoord][yCoord];
 
     //handle previous attack
-    if (thisSquare.hasHit === true) {
-      attackRecieved = false;
-      return attackRecieved;
-    }
+    if (thisSquare.hasHit === true) return false;
+
+    //update square
+    thisSquare.hasHit = true;
 
     //handle ship attack
     if (thisSquare.ship !== null) {
@@ -33,15 +34,12 @@ export class Gameboard {
       this.checkForSunk(thisSquare.ship);
     }
 
-    //update square
-    thisSquare.hasHit = true;
-
     //check for game over
     if (this.checkForGameOver()) {
       //end game
     }
 
-    return attackRecieved;
+    return true;
   }
 
   checkForGameOver() {
@@ -81,6 +79,7 @@ export class Gameboard {
       //this.board[xCoord][yCoord].ship won't exist for out of bounds square
       return hasIssue;
     }
+
     if (this.checkForShipOverlap(possCoords)) hasIssue = true;
     return hasIssue;
   }
@@ -88,7 +87,14 @@ export class Gameboard {
   checkForOutOfBounds(possCoords) {
     let isOutOfBounds = false;
     possCoords.forEach((coordSet) => {
-      if (coordSet[0] > 9 || coordSet[1] > 9) isOutOfBounds = true;
+      if (
+        coordSet[0] > 9 ||
+        coordSet[1] > 9 ||
+        coordSet[0] < 0 ||
+        coordSet[1] < 0
+      ) {
+        isOutOfBounds = true;
+      }
     });
     return isOutOfBounds;
   }

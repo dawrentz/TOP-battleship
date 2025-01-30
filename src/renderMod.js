@@ -66,8 +66,10 @@ export function renderShip(coordSets, playerNum, isHorz) {
       ? boardSquareDOM.classList.add("horz")
       : boardSquareDOM.classList.add("vert");
 
-    //set outline for horz/vert top/mid/end
-    // if (coordSet === coordSets[coordSets.length - 1]) console.log(coordSet);
+    //set border class for last part of ship
+    if (coordSet === coordSets[coordSets.length - 1]) {
+      boardSquareDOM.classList.add("end-of-ship");
+    }
   });
 }
 

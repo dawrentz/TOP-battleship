@@ -10,15 +10,24 @@ const messageDiv = document.querySelector("#message-div");
 
 // ====================================== Major Functions ====================================== //
 
-export function newGame() {
+export function checkMessage() {
+  const gameState = gameMod.getGameState();
+
+  if (gameState === "no game") newGame();
+  if (gameState === "set ships") setShips();
+  if (gameState === "player turn") updatePlayerTurn();
+  if (gameState === "game over") gameOver();
+}
+
+function newGame() {
   updateMessage("Press button to begin game");
 }
 
-export function setShips() {
+function setShips() {
   updateMessage("Player One, set your ships");
 }
 
-export function updatePlayerTurn() {
+function updatePlayerTurn() {
   let playerNumText;
   if (gameMod.getPlayerNum() === 1) playerNumText = "one's";
   else if (gameMod.getPlayerNum() === 2) playerNumText = "two's";
@@ -26,10 +35,11 @@ export function updatePlayerTurn() {
   updateMessage(`Player ${playerNumText} turn`);
 }
 
-export function gameOver(playerNum) {
+function gameOver() {
   let playerNumText;
-  if (playerNum === 1) playerNumText = "one";
-  else playerNumText = "two";
+  if (gameMod.getPlayerNum() === 1) playerNumText = "one";
+  else if (gameMod.getPlayerNum() === 2) playerNumText = "two";
+  else throw new Error("no current player");
   updateMessage(`Player ${playerNumText} wins!`);
 }
 

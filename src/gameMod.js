@@ -13,7 +13,8 @@ let playerOne;
 let playerTwo;
 let currentPlayerTurn;
 let gameState;
-export const shipLengths = [4, 3, 2, 1, 1, 2, 1, 2, 3, 1];
+const shipLengths = [4, 3, 2, 1, 1, 2, 1, 2, 3, 1];
+// export const shipLengths = [1, 2]; //testing
 
 // ====================================== Init ====================================== //
 
@@ -22,7 +23,7 @@ setGameState().noGame();
 // ====================================== Major Functions ====================================== //
 
 export function progressGame() {
-  if (checkForGameOver()) return;
+  if (checkForAndUpdateGameOver()) return;
   //else, no game over and continue
   changeCurrentPlayerTurn();
 }
@@ -37,9 +38,6 @@ export function initGame() {
   renderMod.setShips(playerOne);
   randomizeShipPlacement(playerOne);
   randomizeShipPlacement(playerTwo);
-  //automatic placement for now
-  // placeDemoShips(playerOne);
-  // placeDemoShips(playerTwo);
 
   currentPlayerTurn = playerOne;
   setGameState().playerTurn();
@@ -48,8 +46,6 @@ export function initGame() {
 function randomizeShipPlacement(player) {
   const randShipList = suggestShips();
   let playerNum = player === playerOne ? 1 : 2;
-  //test
-  console.log(randShipList);
 
   randShipList.forEach((ship) => {
     const coords = player.playerBoard.placeShip(
@@ -58,21 +54,8 @@ function randomizeShipPlacement(player) {
       ship.isHorz
     );
 
-    //test
-    console.log(coords);
-
     renderMod.renderShip(coords, playerNum, ship.isHorz);
   });
-}
-
-function placeDemoShips(player) {
-  //"Player" has "playerBoard" prop which is the Gameboard class, which has a "board" prop which is the actual 2D array
-  const coords1 = player.playerBoard.placeShip(1, [0, 0], true);
-  const coords2 = player.playerBoard.placeShip(1, [0, 1], false);
-
-  let playerNum = player === playerOne ? 1 : 2;
-  renderMod.renderShip(coords1, playerNum, true);
-  renderMod.renderShip(coords2, playerNum, false);
 }
 
 export function setGameState() {
@@ -106,16 +89,14 @@ export function suggestShips() {
 function testRandomShip(board, shipLength) {
   const randCoords = getRandCoords();
   const randIsHorz = getRandIsHorz();
+  const validShip = board.placeShip(shipLength, randCoords, randIsHorz);
 
-  // console.log(board.placeShip(shipLength, randCoords, randIsHorz));
-
-  if (!board.placeShip(shipLength, randCoords, randIsHorz)) {
-    return testRandomShip(board, shipLength);
-  }
+  if (!validShip) return testRandomShip(board, shipLength);
   return { randCoords, randIsHorz };
 }
 
-function getRandCoords() {
+//probably should be in a helper module
+export function getRandCoords() {
   const xCoord = Math.floor(Math.random() * 10);
   const yCoord = Math.floor(Math.random() * 10);
   return [xCoord, yCoord];
@@ -141,11 +122,13 @@ function changeCurrentPlayerTurn() {
   if (currentPlayerTurn === playerOne) currentPlayerTurn = playerTwo;
   else currentPlayerTurn = playerOne;
 
+  //run comp turn
   if (currentPlayerTurn === playerTwo && !playerTwo.isHuman) {
+    playerTwo.compAttack(playerOne);
   }
 }
 
-function checkForGameOver() {
+function checkForAndUpdateGameOver() {
   const enemyPlayer = getEnemyPlayer();
   let isGameOver = false;
 
